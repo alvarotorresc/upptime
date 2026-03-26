@@ -17,11 +17,11 @@ status-website:
   name: Alvaro TC Status
   theme: dark
   introTitle: "**System Status**"
-  introMessage: "Current status of all services. Updated every 5 minutes."
-  favicon: https://alvarotc.com/favicon.svg
+  introMessage: "Current status of all services made by Alvaro Torres. Updated every 5 minutes."
+  favicon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/upptime-icon.svg
   navbar:
     - title: Home
-      href: https://alvarotc.com
+      href: https://status.alvarotc.com
     - title: GitHub
       href: https://github.com/alvarotorresc
 
