@@ -20,11 +20,6 @@ sites:
   - name: PokeUtils
     url: https://pokeutils.alvarotc.com
 
-  # --- Test (temporal) ---
-  - name: Test Down
-    url: https://alvarotc.com/this-does-not-exist
-    expectedStatusCodes:
-      - 200
 
 status-website:
   cname: status.alvarotc.com
