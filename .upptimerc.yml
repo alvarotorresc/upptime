@@ -2,14 +2,15 @@ owner: alvarotorresc
 repo: upptime
 
 sites:
-  - name: Quedamos (Web)
-    url: https://quedamos-app-mobile.vercel.app
-  - name: Quedamos (API)
+  - name: Quedamos
     url: https://quedamos.api.alvarotc.com/health
+    link: https://quedamos-app-mobile.vercel.app
+    icon: https://quedamos-app-mobile.vercel.app/favicon.ico
     expectedStatusCodes:
       - 200
   - name: alvarotc.com
     url: https://alvarotc.com
+    icon: https://alvarotc.com/favicon.svg
 
 
 status-website:
