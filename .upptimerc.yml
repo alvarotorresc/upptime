@@ -1,36 +1,39 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+owner: alvarotorresc
+repo: upptime
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Test Broken Site
-    url: https://thissitedoesnotexist.koj.co
-  - name: IPv6 test
-    url: forwardemail.net
-    port: 80
-    check: "tcp-ping"
-    ipv6: true
+  # --- Productos ---
+  - name: Quedamos (Web)
+    url: https://quedamos-app-mobile.vercel.app
+  - name: Quedamos (API)
+    url: https://quedamos.api.alvarotc.com/health
+    expectedStatusCodes:
+      - 200
+  - name: alvarotc.com
+    url: https://alvarotc.com
+
+  # --- Labs ---
+  - name: Aux
+    url: https://aux.alvarotc.com
+  - name: DevTools
+    url: https://devtools.alvarotc.com
+  - name: PokeUtils
+    url: https://pokeutils.alvarotc.com
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  cname: status.alvarotc.com
+  name: Alvaro TC Status
+  theme: dark
+  introTitle: "**System Status**"
+  introMessage: "Current status of all services. Updated every 5 minutes."
+  favicon: https://alvarotc.com/favicon.svg
   navbar:
-    - title: Status
-      href: /
+    - title: Home
+      href: https://alvarotc.com
     - title: GitHub
-      href: https://github.com/$OWNER/$REPO
+      href: https://github.com/alvarotorresc
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+notifications:
+  - type: telegram
+    botKey: $NOTIFICATION_TELEGRAM_BOT_KEY
+    chatId: $NOTIFICATION_TELEGRAM_CHAT_ID
