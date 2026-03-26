@@ -113,18 +113,18 @@
     "icon": "https://icons.duckduckgo.com/ip3/alvarotc.com.ico",
     "slug": "test-down",
     "status": "down",
-    "uptime": "27.28%",
-    "uptimeDay": "27.28%",
-    "uptimeWeek": "27.28%",
-    "uptimeMonth": "27.28%",
-    "uptimeYear": "27.28%",
-    "time": 166,
-    "timeDay": 166,
-    "timeWeek": 166,
-    "timeMonth": 166,
-    "timeYear": 166,
+    "uptime": "16.61%",
+    "uptimeDay": "16.61%",
+    "uptimeWeek": "16.61%",
+    "uptimeMonth": "16.61%",
+    "uptimeYear": "16.61%",
+    "time": 151,
+    "timeDay": 151,
+    "timeWeek": 151,
+    "timeMonth": 151,
+    "timeYear": 151,
     "dailyMinutesDown": {
-      "2026-03-26": 15
+      "2026-03-26": 29
     }
   }
 ]
