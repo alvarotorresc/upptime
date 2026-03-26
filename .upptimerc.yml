@@ -4,8 +4,7 @@ repo: upptime
 sites:
   - name: Quedamos
     url: https://quedamos.api.alvarotc.com/health
-    link: https://quedamos-app-mobile.vercel.app
-    icon: https://quedamos-app-mobile.vercel.app/favicon.ico
+    icon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg
     expectedStatusCodes:
       - 200
   - name: alvarotc.com
