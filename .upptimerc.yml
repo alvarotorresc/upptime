@@ -2,7 +2,6 @@ owner: alvarotorresc
 repo: upptime
 
 sites:
-  # --- Productos ---
   - name: Quedamos (Web)
     url: https://quedamos-app-mobile.vercel.app
   - name: Quedamos (API)
@@ -11,14 +10,6 @@ sites:
       - 200
   - name: alvarotc.com
     url: https://alvarotc.com
-
-  # --- Labs ---
-  - name: Aux
-    url: https://aux.alvarotc.com
-  - name: DevTools
-    url: https://devtools.alvarotc.com
-  - name: PokeUtils
-    url: https://pokeutils.alvarotc.com
 
 
 status-website:
