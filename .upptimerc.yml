@@ -12,6 +12,12 @@ sites:
     icon: https://alvarotc.com/favicon.svg
 
 
+workflowSchedule:
+  uptime: "*/5 * * * *"
+  responseTime: "*/5 * * * *"
+  graphs: "0 0 * * *"
+  summary: "0 0 * * *"
+
 status-website:
   cname: status.alvarotc.com
   name: Alvaro TC Status
