@@ -4,18 +4,20 @@
     "url": "https://quedamos.api.alvarotc.com/health",
     "icon": "https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg",
     "slug": "quedamos",
-    "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "status": "up",
+    "uptime": "99.87%",
+    "uptimeDay": "98.69%",
+    "uptimeWeek": "99.81%",
+    "uptimeMonth": "99.87%",
+    "uptimeYear": "99.87%",
     "time": 448,
-    "timeDay": 440,
+    "timeDay": 442,
     "timeWeek": 448,
     "timeMonth": 448,
     "timeYear": 448,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-04-05": 19
+    }
   },
   {
     "name": "alvarotc.com",
@@ -28,11 +30,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 294,
-    "timeDay": 290,
+    "time": 295,
+    "timeDay": 293,
     "timeWeek": 296,
-    "timeMonth": 294,
-    "timeYear": 294,
+    "timeMonth": 295,
+    "timeYear": 295,
     "dailyMinutesDown": {}
   }
 ]
