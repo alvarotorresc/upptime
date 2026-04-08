@@ -5,16 +5,16 @@
     "icon": "https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg",
     "slug": "quedamos",
     "status": "up",
-    "uptime": "99.89%",
+    "uptime": "99.90%",
     "uptimeDay": "100.00%",
     "uptimeWeek": "99.81%",
-    "uptimeMonth": "99.89%",
-    "uptimeYear": "99.89%",
-    "time": 449,
-    "timeDay": 462,
-    "timeWeek": 451,
-    "timeMonth": 449,
-    "timeYear": 449,
+    "uptimeMonth": "99.90%",
+    "uptimeYear": "99.90%",
+    "time": 448,
+    "timeDay": 428,
+    "timeWeek": 445,
+    "timeMonth": 448,
+    "timeYear": 448,
     "dailyMinutesDown": {
       "2026-04-05": 19
     }
@@ -30,11 +30,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 295,
-    "timeDay": 297,
-    "timeWeek": 297,
-    "timeMonth": 295,
-    "timeYear": 295,
+    "time": 296,
+    "timeDay": 309,
+    "timeWeek": 298,
+    "timeMonth": 296,
+    "timeYear": 296,
     "dailyMinutesDown": {}
   }
 ]
