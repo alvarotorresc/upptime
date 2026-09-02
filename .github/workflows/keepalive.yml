@@ -1,0 +1,21 @@
+name: Keepalive
+
+# GitHub disables scheduled workflows after 60 days without repository activity
+# by a user; the Upptime bot's own commits did not count and the monitor died
+# in June 2026. A monthly no-op commit keeps every schedule alive.
+on:
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          time_elapsed: 30
