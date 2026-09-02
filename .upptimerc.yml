@@ -2,8 +2,13 @@ owner: alvarotorresc
 repo: upptime
 
 sites:
-  - name: Quedamos
+  - name: Quedamos API
     url: https://quedamos.api.alvarotc.com/health
+    icon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg
+    expectedStatusCodes:
+      - 200
+  - name: Quedamos Web
+    url: https://quedamos.alvarotc.com
     icon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg
     expectedStatusCodes:
       - 200
