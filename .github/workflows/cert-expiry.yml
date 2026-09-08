@@ -1,0 +1,120 @@
+# Weekly TLS certificate expiry check.
+# Not managed by the Upptime template: this file is safe to edit.
+#
+# For every monitored host it reads the certificate served on :443 and fails
+# (sending a Telegram alert with the same secrets Upptime uses) when the
+# certificate expires within 14 days or cannot be retrieved at all.
+
+name: Certificate expiry
+
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.host }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - quedamos.alvarotc.com
+          - quedamos.api.alvarotc.com
+          - analytics.alvarotc.com
+          - status.alvarotc.com
+          - alvarotc.com
+    env:
+      HOST: ${{ matrix.host }}
+      WARN_SECONDS: "1209600" # 14 days
+    steps:
+      - name: Read certificate
+        id: cert
+        shell: bash
+        run: |
+          set -euo pipefail
+          pem="$(echo | timeout 30 openssl s_client -connect "${HOST}:443" -servername "${HOST}" 2>/dev/null || true)"
+          if ! enddate="$(printf '%s\n' "$pem" | openssl x509 -noout -enddate 2>/dev/null)"; then
+            {
+              echo "status=unreachable"
+              echo "enddate=unknown"
+              echo "days_left=unknown"
+            } >> "$GITHUB_OUTPUT"
+            echo "::error title=${HOST}::Could not retrieve the TLS certificate"
+            exit 0
+          fi
+          enddate="${enddate#notAfter=}"
+          days_left="$(( ($(date -u -d "$enddate" +%s) - $(date -u +%s)) / 86400 ))"
+          if printf '%s\n' "$pem" | openssl x509 -noout -checkend "$WARN_SECONDS" >/dev/null; then
+            status="ok"
+            echo "${HOST}: OK, expires ${enddate} (${days_left} days left)"
+          else
+            status="expiring"
+            echo "::error title=${HOST}::Certificate expires ${enddate} (${days_left} days left)"
+          fi
+          {
+            echo "status=${status}"
+            echo "enddate=${enddate}"
+            echo "days_left=${days_left}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          STATUS: ${{ steps.cert.outputs.status }}
+          ENDDATE: ${{ steps.cert.outputs.enddate }}
+          DAYS_LEFT: ${{ steps.cert.outputs.days_left }}
+        run: |
+          case "$STATUS" in
+            ok) icon="✅" ;;
+            *) icon="❌" ;;
+          esac
+          {
+            echo "| Host | Status | Expires | Days left |"
+            echo "| --- | --- | --- | --- |"
+            echo "| \`${HOST}\` | ${icon} ${STATUS} | ${ENDDATE} | ${DAYS_LEFT} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Notify Telegram
+        if: steps.cert.outputs.status != 'ok'
+        shell: bash
+        env:
+          TELEGRAM_BOT_KEY: ${{ secrets.NOTIFICATION_TELEGRAM_BOT_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.NOTIFICATION_TELEGRAM_CHAT_ID }}
+          STATUS: ${{ steps.cert.outputs.status }}
+          ENDDATE: ${{ steps.cert.outputs.enddate }}
+          DAYS_LEFT: ${{ steps.cert.outputs.days_left }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +x
+          set -euo pipefail
+          if [ -z "${TELEGRAM_BOT_KEY}" ] || [ -z "${TELEGRAM_CHAT_ID}" ]; then
+            echo "::warning::Telegram secrets are not configured; skipping notification"
+            exit 0
+          fi
+          case "$STATUS" in
+            expiring) text="⚠️ TLS certificate for ${HOST} expires on ${ENDDATE} (${DAYS_LEFT} days left). ${RUN_URL}" ;;
+            *) text="⚠️ Could not verify the TLS certificate for ${HOST}. ${RUN_URL}" ;;
+          esac
+          # Never echo the request URL: it embeds the bot token. Only the HTTP status is printed.
+          http_code="$(curl -sS --fail-with-body -o /dev/null -w '%{http_code}' \
+            -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_KEY}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=${text}" 2>/dev/null)" || true
+          echo "Telegram API responded with HTTP ${http_code:-000}"
+
+      - name: Fail when the certificate is not healthy
+        if: steps.cert.outputs.status != 'ok'
+        shell: bash
+        env:
+          STATUS: ${{ steps.cert.outputs.status }}
+          ENDDATE: ${{ steps.cert.outputs.enddate }}
+        run: |
+          echo "::error title=${HOST}::Certificate check failed (${STATUS}, expires ${ENDDATE})"
+          exit 1
