@@ -15,6 +15,11 @@ sites:
   - name: alvarotc.com
     url: https://alvarotc.com
     icon: https://alvarotc.com/favicon.svg
+  - name: Contact form
+    url: https://contact.alvarotc.com/health
+    icon: https://alvarotc.com/favicon.svg
+    expectedStatusCodes:
+      - 200
 
 
 workflowSchedule:
