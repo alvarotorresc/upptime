@@ -29,6 +29,11 @@ jobs:
           - analytics.alvarotc.com
           - status.alvarotc.com
           - alvarotc.com
+          - contact.alvarotc.com
+          - cheesy.alvarotc.com
+          - pokeutils.alvarotc.com
+          - devtools.alvarotc.com
+          - basecero.alvarotc.com
     env:
       HOST: ${{ matrix.host }}
       WARN_SECONDS: "1209600" # 14 days
