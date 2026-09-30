@@ -1,0 +1,102 @@
+# Dead-man switch for the monitor itself.
+# Not managed by the Upptime template: this file is safe to edit.
+#
+# Upptime stops silently when its token expires or its schedules get disabled:
+# it was down from April to September 2026 and nothing reported it. This sends
+# a Telegram alert (with the same secrets Upptime uses) when neither Uptime CI
+# nor Response Time CI has succeeded within the last 12 hours.
+
+name: Monitor watchdog
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      max_age_seconds:
+        description: "Alert when the last successful check is older than this (use 0 to test the alert)"
+        required: false
+        default: "43200"
+
+permissions:
+  actions: read
+
+jobs:
+  check:
+    name: Last successful check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      MAX_AGE_SECONDS: ${{ inputs.max_age_seconds || '43200' }} # 12 hours
+    steps:
+      - name: Find the last successful check
+        id: last
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest=""
+          for workflow in uptime.yml response-time.yml; do
+            # The API's status=success filter lags by weeks, so filter the latest runs here instead.
+            created="$(gh api "repos/${REPO}/actions/workflows/${workflow}/runs?per_page=30" \
+              --jq '[.workflow_runs[] | select(.conclusion == "success") | .created_at] | max // empty')"
+            if [[ "$created" > "$latest" ]]; then
+              latest="$created"
+            fi
+          done
+          if [ -z "$latest" ]; then
+            status="stale"
+            hours="unknown"
+            latest="none in the last 30 runs"
+            echo "::error::No successful check found"
+          else
+            age="$(( $(date -u +%s) - $(date -u -d "$latest" +%s) ))"
+            hours="$(( age / 3600 ))"
+            if [ "$age" -gt "$MAX_AGE_SECONDS" ]; then
+              status="stale"
+              echo "::error::Last successful check was ${latest} (${hours} hours ago)"
+            else
+              status="ok"
+              echo "OK, last successful check was ${latest} (${hours} hours ago)"
+            fi
+          fi
+          {
+            echo "status=${status}"
+            echo "latest=${latest}"
+            echo "hours=${hours}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Notify Telegram
+        if: steps.last.outputs.status != 'ok'
+        shell: bash
+        env:
+          TELEGRAM_BOT_KEY: ${{ secrets.NOTIFICATION_TELEGRAM_BOT_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.NOTIFICATION_TELEGRAM_CHAT_ID }}
+          LATEST: ${{ steps.last.outputs.latest }}
+          HOURS: ${{ steps.last.outputs.hours }}
+          ACTIONS_URL: ${{ github.server_url }}/${{ github.repository }}/actions
+        run: |
+          set +x
+          set -euo pipefail
+          if [ -z "${TELEGRAM_BOT_KEY}" ] || [ -z "${TELEGRAM_CHAT_ID}" ]; then
+            echo "::warning::Telegram secrets are not configured; skipping notification"
+            exit 0
+          fi
+          text="⚠️ Upptime is not checking anything: last successful check ${LATEST} (${HOURS} hours ago). ${ACTIONS_URL}"
+          # Never echo the request URL: it embeds the bot token. Only the HTTP status is printed.
+          http_code="$(curl -sS --fail-with-body -o /dev/null -w '%{http_code}' \
+            -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_KEY}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=${text}" 2>/dev/null)" || true
+          echo "Telegram API responded with HTTP ${http_code:-000}"
+
+      - name: Fail when the monitor is stale
+        if: steps.last.outputs.status != 'ok'
+        shell: bash
+        env:
+          LATEST: ${{ steps.last.outputs.latest }}
+        run: |
+          echo "::error::Monitor is stale (last successful check: ${LATEST})"
+          exit 1

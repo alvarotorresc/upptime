@@ -15,6 +15,8 @@ sites:
   - name: alvarotc.com
     url: https://alvarotc.com
     icon: https://alvarotc.com/favicon.svg
+    expectedStatusCodes:
+      - 200
   - name: Contact form
     url: https://contact.alvarotc.com/health
     icon: https://alvarotc.com/favicon.svg
@@ -33,7 +35,7 @@ status-website:
   name: Alvaro TC Status
   theme: dark
   introTitle: "**System Status**"
-  introMessage: "Current status of all services made by Alvaro Torres. Updated every 5 minutes."
+  introMessage: "Current status of all services made by Alvaro Torres, checked automatically."
   favicon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/upptime-icon.svg
   navbar:
     - title: Home
