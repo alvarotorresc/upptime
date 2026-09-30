@@ -4,12 +4,12 @@ repo: upptime
 sites:
   - name: Quedamos API
     url: https://quedamos.api.alvarotc.com/health
-    icon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg
+    icon: https://quedamos.alvarotc.com/icon-256.png
     expectedStatusCodes:
       - 200
   - name: Quedamos Web
     url: https://quedamos.alvarotc.com
-    icon: https://raw.githubusercontent.com/alvarotorresc/upptime/master/assets/quedamos-icon.svg
+    icon: https://quedamos.alvarotc.com/icon-256.png
     expectedStatusCodes:
       - 200
   - name: alvarotc.com
@@ -18,6 +18,26 @@ sites:
   - name: Contact form
     url: https://contact.alvarotc.com/health
     icon: https://alvarotc.com/favicon.svg
+    expectedStatusCodes:
+      - 200
+  - name: Cheesy
+    url: https://cheesy.alvarotc.com
+    icon: https://cheesy.alvarotc.com/favicon.svg
+    expectedStatusCodes:
+      - 200
+  - name: PokeUtils
+    url: https://pokeutils.alvarotc.com
+    icon: https://pokeutils.alvarotc.com/icons/favicon.svg
+    expectedStatusCodes:
+      - 200
+  - name: DevTools
+    url: https://devtools.alvarotc.com
+    icon: https://devtools.alvarotc.com/favicon.svg
+    expectedStatusCodes:
+      - 200
+  - name: BaseCero
+    url: https://basecero.alvarotc.com
+    icon: https://basecero.alvarotc.com/app/icons/icon.svg
     expectedStatusCodes:
       - 200
 
