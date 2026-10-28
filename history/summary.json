@@ -94,19 +94,19 @@
     "url": "https://pokeutils.alvarotc.com",
     "icon": "https://pokeutils.alvarotc.com/icons/favicon.svg",
     "slug": "poke-utils",
-    "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "99.97%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "status": "up",
+    "uptime": "99.99%",
+    "uptimeDay": "99.85%",
+    "uptimeWeek": "99.98%",
+    "uptimeMonth": "99.99%",
+    "uptimeYear": "99.99%",
     "time": 241,
-    "timeDay": 212,
-    "timeWeek": 223,
-    "timeMonth": 240,
+    "timeDay": 197,
+    "timeWeek": 221,
+    "timeMonth": 239,
     "timeYear": 241,
     "dailyMinutesDown": {
-      "2026-10-28": 0
+      "2026-10-28": 2
     }
   },
   {
